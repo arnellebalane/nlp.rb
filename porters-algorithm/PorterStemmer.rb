@@ -4,6 +4,7 @@ class PorterStemmer
     word = step_1a(word)
     word = step_1b(word)
     word = step_1c(word)
+    word = step_2(word)
     word
   end
 
@@ -65,6 +66,51 @@ class PorterStemmer
       return word
     end
 
+    def self.step_2(word)
+      if word.match(/ational$/)
+        return word.gsub(/ational$/, "ate") if word.stem("ational").m > 0
+      elsif word.match(/tional$/)
+        return word.gsub(/tional$/, "tion") if word.stem("tional").m > 0
+      elsif word.match(/enci$/)
+        return word.gsub(/enci$/, "ence") if word.stem("enci").m > 0
+      elsif word.match(/anci$/)
+        return word.gsub(/anci$/, "ance") if word.stem("anci").m > 0
+      elsif word.match(/izer$/)
+        return word.gsub(/izer$/, "ize") if word.stem("izer").m > 0
+      elsif word.match(/abli$/)
+        return word.gsub(/abli$/, "able") if word.stem("abli").m > 0
+      elsif word.match(/alli$/)
+        return word.gsub(/alli$/, "al") if word.stem("alli").m > 0
+      elsif word.match(/entli$/)
+        return word.gsub(/entli$/, "ent") if word.stem("entli").m > 0
+      elsif word.match(/eli$/)
+        return word.gsub(/eli$/, "e") if word.stem("eli").m > 0
+      elsif word.match(/ousli$/)
+        return word.gsub(/ousli$/, "ous") if word.stem("ousli").m > 0
+      elsif word.match(/ization$/)
+        return word.gsub(/ization$/, "ize") if word.stem("ization").m > 0
+      elsif word.match(/ation$/)
+        return word.gsub(/ation$/, "ate") if word.stem("ation").m > 0
+      elsif word.match(/ator$/)
+        return word.gsub(/ator$/, "ate") if word.stem("ator").m > 0
+      elsif word.match(/alism$/)
+        return word.gsub(/alism$/, "al") if word.stem("alism").m > 0
+      elsif word.match(/iveness$/)
+        return word.gsub(/iveness$/, "ive") if word.stem("iveness").m > 0
+      elsif word.match(/fulness$/)
+        return word.gsub(/fulness$/, "ful") if word.stem("fulness").m > 0
+      elsif word.match(/ousness$/)
+        return word.gsub(/ousness$/, "ous") if word.stem("ousness").m > 0
+      elsif word.match(/aliti$/)
+        return word.gsub(/aliti$/, "al") if word.stem("aliti").m > 0
+      elsif word.match(/iviti$/)
+        return word.gsub(/iviti$/, "ive") if word.stem("iviti").m > 0
+      elsif word.match(/biliti$/)
+        return word.gsub(/biliti$/, "ble") if word.stem("biliti").m > 0
+      end
+      return word
+    end
+
 end
 
 
@@ -112,7 +158,11 @@ end
 
 
 
-words = %w{caresses ponies ties caress cats feed agreed plastered bled motoring sing conflated troubled sized hopping tanned falling hissing fizzing failing filing happy sky}
+words = %w{caresses ponies ties caress cats feed agreed plastered bled motoring sing conflated troubled 
+            sized hopping tanned falling hissing fizzing failing filing happy sky relational conditional
+            rational valenci hesitanci digitizer conformabli radicalli differentli vileli analogousli
+            vietnamization predication operator feudalism decisiveness hopefulness callousness formaliti
+            sensitiviti sensibiliti}
 
 words.each do |word|
   p PorterStemmer.stem(word)
