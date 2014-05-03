@@ -1,4 +1,4 @@
-class LevenshteinDistance
+class Levenshtein
 
   def self.between(a, b, visualize = false)
     grid = [(0..b.length).to_a]
