@@ -7,6 +7,8 @@ class PorterStemmer
     word = step_2(word)
     word = step_3(word)
     word = step_4(word)
+    word = step_5a(word)
+    word = step_5b(word)
     word
   end
 
@@ -175,6 +177,22 @@ class PorterStemmer
       return word
     end
 
+    def self.step_5a(word)
+      if word.match(/e$/)
+        if word.stem("e").m > 1
+          return word.gsub(/e$/, "")
+        elsif word.stem("e").m == 1 and !word.stem("e").ends_with_cvc?
+          return word.gsub(/e$/, "")
+        end
+      end
+      return word
+    end
+
+    def self.step_5b(word)
+      return word.gsub(/.$/, "") if word.m > 1 and word.match(/ll$/)
+      return word
+    end
+
 end
 
 
@@ -229,7 +247,7 @@ words = %w{caresses ponies ties caress cats feed agreed plastered bled motoring 
             sensitiviti sensibiliti triplicate formative formalize electriciti electrical hopeful goodness
             revival allowance inference airliner gyroscopic adjustable defensible irritant replacement
             adjustment dependent adoption homologou communism activate angulariti homologous effective
-            bowdlerize}
+            bowdlerize probate rate cease controll roll}
 
 words.each do |word|
   p PorterStemmer.stem(word)
