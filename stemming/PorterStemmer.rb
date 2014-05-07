@@ -224,10 +224,6 @@ class String
     !!self.match(/[aeiou]/)
   end
 
-  def ends_with?(string)
-    !!self.match(/#{string}$/)
-  end
-
   def ends_with_double_consonant?
     !!self.match(/[^aeiou]{2}$/) and self[-1] == self[-2]
   end
@@ -236,19 +232,4 @@ class String
     !!self.form(false).match(/cvc$/) and !self[-1].match(/[wxy]/)
   end
 
-end
-
-
-
-words = %w{caresses ponies ties caress cats feed agreed plastered bled motoring sing conflated troubled 
-            sized hopping tanned falling hissing fizzing failing filing happy sky relational conditional
-            rational valenci hesitanci digitizer conformabli radicalli differentli vileli analogousli
-            vietnamization predication operator feudalism decisiveness hopefulness callousness formaliti
-            sensitiviti sensibiliti triplicate formative formalize electriciti electrical hopeful goodness
-            revival allowance inference airliner gyroscopic adjustable defensible irritant replacement
-            adjustment dependent adoption homologou communism activate angulariti homologous effective
-            bowdlerize probate rate cease controll roll}
-
-words.each do |word|
-  p PorterStemmer.stem(word)
 end
