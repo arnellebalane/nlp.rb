@@ -16,17 +16,45 @@ class NeedlemanWunsch
       end
     end
 
-    backtrace = alignments(backtrace)
-
-    backtrace.each do |row|
-      p row
-    end
-    
-    print "     #   " + b.split("").join("   ") + "\n\n"
+    print "    #  " + b.split("").join("  ") + "\n\n"
     matrix.each_with_index do |row, i|
       print "#{("#" + a)[i]} "
-      row.each { |j| print "#{ Array.new(4 - j.to_s.length) { " " }.join }#{j}" }
+      row.each { |j| print "#{ Array.new(3 - j.to_s.length) { " " }.join }#{j}" }
       puts "\n"
+    end
+    puts "\n"
+
+    print "    #  " + b.split("").join("  ") + "\n\n"
+    backtrace.each_with_index do |row, i|
+      print "#{("#" + a)[i]} "
+      row.each { |j| print "#{ Array.new(3 - j.to_s.length) { " " }.join }#{j}" }
+      puts "\n"
+    end
+    puts "\n"
+
+    alignments = alignments(backtrace)
+    alignments.each do |alignment|
+      x = []
+      y = []
+      z = []
+      previous = alignment.delete_at(0)
+      alignment.each do |cell|
+        if cell[0] == previous[0]
+          x.push("*")
+          y.push(b[cell[1] - 1])
+          z.push(" ")
+        elsif cell[1] == previous[1]
+          x.push(a[cell[0] - 1])
+          y.push("*")
+          z.push(" ")
+        else
+          x.push(a[cell[0] - 1])
+          y.push(b[cell[1] - 1])
+          z.push(a[cell[0] - 1] == b[cell[1] - 1] ? "|" : " ")
+        end
+        previous = cell
+      end
+      print "#{x.join(" ")}\n#{z.join(" ")}\n#{y.join(" ")}\n\n"
     end
   end
 
@@ -48,22 +76,11 @@ class NeedlemanWunsch
           paths += alignments(backtrace, i - 1, j - 1).map { |path| path + [[i, j]] }
         end
       end
-      paths
+      return paths
     end
 
 end
 
 
 
-NeedlemanWunsch.align("atcgt", "tggtg")
-
-#         j
-#   - t g g t g------b
-#   a 
-#   t
-# i c
-#   g
-#   t
-#   |
-#   |
-#   a
+NeedlemanWunsch.align("ctg", "acct")
