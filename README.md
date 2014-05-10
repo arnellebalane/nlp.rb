@@ -1,1 +1,4 @@
-###natural language processing techniques and algorithms using ruby
+nlp.rb
+======
+
+ruby implementation of natural language processing techniques and algorithms

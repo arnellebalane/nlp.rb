@@ -16,21 +16,23 @@ class NeedlemanWunsch
       end
     end
 
-    print "    #  " + b.split("").join("  ") + "\n\n"
-    matrix.each_with_index do |row, i|
-      print "#{("#" + a)[i]} "
-      row.each { |j| print "#{ Array.new(3 - j.to_s.length) { " " }.join }#{j}" }
+    if options.has_key?(:visualize) and options[:visualize]
+      print "    #  " + b.split("").join("  ") + "\n\n"
+      matrix.each_with_index do |row, i|
+        print "#{("#" + a)[i]} "
+        row.each { |j| print "#{ Array.new(3 - j.to_s.length) { " " }.join }#{j}" }
+        puts "\n"
+      end
       puts "\n"
-    end
-    puts "\n"
 
-    print "    #  " + b.split("").join("  ") + "\n\n"
-    backtrace.each_with_index do |row, i|
-      print "#{("#" + a)[i]} "
-      row.each { |j| print "#{ Array.new(3 - j.to_s.length) { " " }.join }#{j}" }
+      print "    #  " + b.split("").join("  ") + "\n\n"
+      backtrace.each_with_index do |row, i|
+        print "#{("#" + a)[i]} "
+        row.each { |j| print "#{ Array.new(3 - j.to_s.length) { " " }.join }#{j}" }
+        puts "\n"
+      end
       puts "\n"
     end
-    puts "\n"
 
     alignments = alignments(backtrace)
     alignments.each do |alignment|
@@ -80,7 +82,3 @@ class NeedlemanWunsch
     end
 
 end
-
-
-
-NeedlemanWunsch.align("ctg", "acct")
