@@ -1,6 +1,11 @@
 class Levenshtein
 
   def self.between(a, b, options = {})
+    insertion_cost = options[:insertion_cost] || 1
+    deletion_cost = options[:deletion_cost] || 1
+    match_cost = options[:match_cost] || 0
+    mismatch_cost = options[:mismatch_cost] || 2
+
     grid = [(0..b.length).to_a]
     grid += Array.new(a.length) { |i| [i + 1] + b.chars.map { 0 } }
     backtrace = [["-"] + Array.new(b.length) { "I" }]
@@ -8,7 +13,7 @@ class Levenshtein
 
     for i in 0...a.length
       for j in 0...b.length
-        d = [grid[i][j + 1] + 1, grid[i + 1][j] + 1, grid[i][j] + (a[i] == b[j] ? 0 : 2)]
+        d = [grid[i][j + 1] + deletion_cost, grid[i + 1][j] + 1, grid[i][j] + (a[i] == b[j] ? match_cost : mismatch_cost)]
         grid[i + 1][j + 1] = d.min
         backtrace[i + 1][j + 1] = "D" if grid[i + 1][j + 1] == d[0]
         backtrace[i + 1][j + 1] = "I" if grid[i + 1][j + 1] == d[1]
