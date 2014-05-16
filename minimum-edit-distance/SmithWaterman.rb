@@ -92,7 +92,3 @@ class SmithWaterman
     end
 
 end
-
-
-
-SmithWaterman.align("atcat", "attatc", visualize: true)
