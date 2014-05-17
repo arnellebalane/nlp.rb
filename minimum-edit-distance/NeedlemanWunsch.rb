@@ -1,6 +1,11 @@
 class NeedlemanWunsch
 
   def self.align(a, b, options = {})
+    insertion_cost = options[:insertion_cost] || -2
+    deletion_cost = options[:deletion_cost] || -2
+    match_cost = options[:match_cost] || 1
+    mismatch_cost = options[:mismatch_cost] || -1
+
     matrix = [[0] + Array.new(b.length) { |i| -i * 2 - 2 }]
     matrix += Array.new(a.length) { |i| [-i * 2 - 2] + b.chars.map { 0 } }
     backtrace = [["-"] + Array.new(b.length) { "L" }]
@@ -8,7 +13,7 @@ class NeedlemanWunsch
 
     for i in 0...a.length
       for j in 0...b.length
-        d = [matrix[i][j] + (a[i] == b[j] ? 1 : -1), matrix[i + 1][j] - 2, matrix[i][j + 1] - 2]
+        d = [matrix[i][j] + (a[i] == b[j] ? match_cost : mismatch_cost), matrix[i + 1][j] + deletion_cost, matrix[i][j + 1] + insertion_cost]
         matrix[i + 1][j + 1] = d.max
         backtrace[i + 1][j + 1] += "D" if matrix[i + 1][j + 1] == d[0]
         backtrace[i + 1][j + 1] += "L" if matrix[i + 1][j + 1] == d[1]
