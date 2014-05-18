@@ -1,6 +1,11 @@
 class SmithWaterman
 
   def self.align(a, b, options = {})
+    insertion_cost = options[:insertion_cost] || -1
+    deletion_cost = options[:deletion_cost] || -1
+    match_cost = options[:match_cost] || 1
+    mismatch_cost = options[:mismatch_cost] || -1
+
     matrix = Array.new(a.length + 1) { Array.new(b.length + 1) { 0 } }
     backtrace = [Array.new(b.length + 1) { "-" }] + Array.new(a.length) { ["-"] + Array.new(b.length) { "" } }
     highest_score = 0
@@ -8,7 +13,7 @@ class SmithWaterman
 
     for i in 0...a.length
       for j in 0...b.length
-        d = [0, matrix[i][j] + (a[i] == b[j] ? 1 : -1), matrix[i][j + 1] - 1, matrix[i + 1][j] - 1]
+        d = [0, matrix[i][j] + (a[i] == b[j] ? match_cost : mismatch_cost), matrix[i][j + 1] + insertion_cost, matrix[i + 1][j] + deletion_cost]
         matrix[i + 1][j + 1] = d.max
         if matrix[i + 1][j + 1] > 0
           backtrace[i + 1][j + 1] += "D" if matrix[i + 1][j + 1] == d[1]
